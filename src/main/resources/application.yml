@@ -1,0 +1,46 @@
+spring:
+  sql:
+    init:
+      mode: always
+  docker:
+    compose:
+      # Включение поддержки Docker Compose
+      enabled: true
+      # Специфичный файл Docker Compose
+      file: compose.yml
+      # Управление жизненным циклом контейнеров
+      lifecycle-management: start_and_stop
+      # Имя или ip-адрес хоста, на котором запускаются контейнеры
+      host: localhost
+      # Параметры запуска контейнеров
+      start:
+        # Уровень логгирования
+        log-level: info
+        # Команда запуска
+        command: up
+      # Параметры остановки контейнеров
+      stop:
+        # Время ожидания остановки контейнеров
+        timeout: 10s
+        # Команда остановки
+        command: stop
+      # Профили Docker Compose
+      profiles:
+        # Активные профили
+        active: pg_15
+      # Не использовать Docker Compose
+      skip:
+        # В тестах
+        in-tests: true
+      # Проверки доступности контейнера
+      readiness:
+        # По TCP
+        tcp:
+          # Таймаут подключения
+          connect-timeout: 200ms
+          # Таймаут чтения
+          read-timeout: 200ms
+        # Таймаут
+        timeout: 2m
+        # Ожидание
+        wait: always
